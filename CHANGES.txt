@@ -1,6 +1,9 @@
 WTForms Changelog
 =================
 
+- Fix a bug in ORM modeling which would incorrectly raise a validation
+  error for a valid, but boolean false input (for non-nullable columns).
+
 Version 1.0.2
 -------------
 Released August 24, 2012
