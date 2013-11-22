@@ -298,11 +298,13 @@ class NotNoneValidatorTest(TestCase):
         self.assertEqual(NotNone()(form, DummyField('foobar', raw_data=[''])), None)
         self.assertEqual(NotNone()(form, DummyField('foobar', raw_data=[''])), None)
         self.assertEqual(NotNone()(form, DummyField('foobar', raw_data=None, default='')), None)
-        self.assertRaises(StopValidation, NotNone(), form, DummyField('', raw_data=None))
+        self.assertEqual(NotNone()(form, DummyField('', raw_data=None)), None)
+        self.assertEqual(NotNone()(form, DummyField('foobar', raw_data=None)), None)
+        self.assertRaises(StopValidation, NotNone(), form, DummyField(None, raw_data=None))
         self.assertEqual(NotNone().field_flags, ('required', ))
 
         # Check message and custom message
-        grab = lambda **k: grab_stop_message(NotNone(**k), form, DummyField('', raw_data=None))
+        grab = lambda **k: grab_stop_message(NotNone(**k), form, DummyField(None, raw_data=None))
         self.assertEqual(grab(), 'This field is required.')
         self.assertEqual(grab(message='foo'), 'foo')
 

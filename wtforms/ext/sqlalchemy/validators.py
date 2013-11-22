@@ -47,7 +47,8 @@ class NotNone(object):
         self.message = message
 
     def __call__(self, form, field):
-        if field.raw_data is None and field.default is None:
+        if field.raw_data is None and field.default is None and \
+                field.data is None:
             if self.message is None:
                 self.message = field.gettext('This field is required.')
 
