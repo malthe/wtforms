@@ -69,7 +69,7 @@ class SecureFormTest(TestCase):
         form = InsecureForm(post_data, csrf_context='test')
         self.assertFalse(form.validate())
 
-        self.assertEqual(form.csrf_token.data, '')
+        self.assertEqual(form.csrf_token.data, None)
         self.assertEqual(form.csrf_token._value(), 'test')
 
 
