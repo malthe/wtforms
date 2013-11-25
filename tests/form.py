@@ -60,7 +60,7 @@ class BaseFormTest(TestCase):
         self.assertRaises(AttributeError, getattr, form['test'], 'data')
         form.process(DummyPostData(test=['1']))
         self.assertEqual(form['test'].data, 1)
-        self.assertEqual(form['foo'].data, '')
+        self.assertEqual(form['foo'].data, None)
 
     def test_populate_obj(self):
         m = type(str('Model'), (object, ), {})
