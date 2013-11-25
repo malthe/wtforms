@@ -34,6 +34,7 @@ class Field(object):
     """
     Field base class
     """
+    default = None
     errors = tuple()
     process_errors = tuple()
     raw_data = None
@@ -50,7 +51,7 @@ class Field(object):
             return UnboundField(cls, *args, **kwargs)
 
     def __init__(self, label=None, validators=None, filters=tuple(),
-                 description='', id=None, default=None, widget=None,
+                 description='', id=None, default=_unset_value, widget=None,
                  _form=None, _name=None, _prefix='', _translations=None):
         """
         Construct a new field.
@@ -88,7 +89,9 @@ class Field(object):
         if _translations is not None:
             self._translations = _translations
 
-        self.default = default
+        if default is not _unset_value:
+            self.default = default
+
         self.description = description
         self.filters = filters
         self.flags = Flags()
@@ -489,8 +492,6 @@ class StringField(Field):
     def process_formdata(self, valuelist):
         if valuelist:
             self.data = valuelist[0]
-        else:
-            self.data = ''
 
     def _value(self):
         return text_type(self.data) if self.data is not None else ''
